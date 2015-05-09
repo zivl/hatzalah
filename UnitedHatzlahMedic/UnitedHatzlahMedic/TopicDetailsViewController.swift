@@ -8,10 +8,21 @@
 
 import UIKit
 
-class SecondViewController: UIViewController {
+class TopicDetailsViewController: UIViewController {
 
+    @IBOutlet weak var webview: UIWebView!
+    
     override func viewDidLoad() {
-        super.viewDidLoad()
+        super.viewDidLoad();
+
+        self.navigationController?.title = "";
+        var url = NSBundle.mainBundle().URLForResource("pir", withExtension: "html");
+        let request = NSURLRequest(URL: url!)
+
+        webview.loadRequest(request);
+        
+        
+        
         // Do any additional setup after loading the view, typically from a nib.
     }
 

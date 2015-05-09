@@ -10,8 +10,15 @@ import UIKit
 
 class TopicsTableViewController: UITableViewController {
 
+    var topics : NSArray = [];
+    
     override func viewDidLoad() {
-        super.viewDidLoad()
+        super.viewDidLoad();
+        
+        let path = NSBundle.mainBundle().pathForResource("topics", ofType: "json");
+        let jsonData = NSData(contentsOfFile: path!);
+        var jsonResult: NSDictionary = NSJSONSerialization.JSONObjectWithData(jsonData!, options: NSJSONReadingOptions.MutableContainers, error: nil) as! NSDictionary;
+        topics = jsonResult["topics"] as! NSArray;
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -30,24 +37,32 @@ class TopicsTableViewController: UITableViewController {
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
-        return 0
+        return 1
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
-        return 0
+        return topics.count;
     }
 
-    /*
+    
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("topicCell", forIndexPath: indexPath) as! UITableViewCell
 
         // Configure the cell...
+        var index = indexPath.row;
+        
+        var topic = self.topics[index] as! NSDictionary;
+        
+        var title:String? = String(stringInterpolationSegment: topic["title"]!);
+        if let t = title {
+            cell.textLabel?.text = t;
+        }
+        
 
         return cell
     }
-    */
 
     /*
     // Override to support conditional editing of the table view.
