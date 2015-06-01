@@ -8,9 +8,10 @@
 
 import UIKit
 
-class TopicsTableViewController: UITableViewController {
+class TopicsTableViewController: UITableViewController, UISearchBarDelegate, UISearchControllerDelegate{
 
-    var topics : NSArray = [];
+    var topics = [Topic]();
+    var filteredTopics = [Topic]();
     
     override func viewDidLoad() {
         super.viewDidLoad();
@@ -18,7 +19,11 @@ class TopicsTableViewController: UITableViewController {
         let path = NSBundle.mainBundle().pathForResource("topics", ofType: "json");
         let jsonData = NSData(contentsOfFile: path!);
         var jsonResult: NSDictionary = NSJSONSerialization.JSONObjectWithData(jsonData!, options: NSJSONReadingOptions.MutableContainers, error: nil) as! NSDictionary;
-        topics = jsonResult["topics"] as! NSArray;
+        var temp : NSArray = jsonResult["topics"] as! NSArray;
+        for (var i = 0; i < temp.count; i++){
+            var t = Topic(data: temp[i] as! NSDictionary);
+            topics.append(t);
+        }
 
         // Uncomment the following line to preserve selection between presentations
 //        self.clearsSelectionOnViewWillAppear = false
@@ -30,6 +35,24 @@ class TopicsTableViewController: UITableViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func filterContentForSearchText(searchText: String) {
+        // Filter the array using the filter method
+        self.filteredTopics = self.topics.filter({( topic: Topic) -> Bool in
+            let stringMatch = topic.title.rangeOfString(searchText)
+            return stringMatch != nil;
+        });
+    }
+    
+    func searchDisplayController(controller: UISearchController, shouldReloadTableForSearchString searchString: String!) -> Bool {
+        self.filterContentForSearchText(searchString);
+        return true;
+    }
+    
+    func searchDisplayController(controller: UISearchController, shouldReloadTableForSearchScope searchOption: Int) -> Bool {
+        self.filterContentForSearchText(controller.searchBar.text);
+        return true;
     }
 
     // MARK: - Table view data source
@@ -43,23 +66,37 @@ class TopicsTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
-        return topics.count;
+        if tableView == self.searchDisplayController!.searchResultsTableView {
+            return self.filteredTopics.count;
+        } else {
+            return self.topics.count;
+        }
     }
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("topicCell", forIndexPath: indexPath) as! UITableViewCell
+        var tCell = tableView.dequeueReusableCellWithIdentifier("topicCell") as? UITableViewCell
 
-        // Configure the cell...
+        if (tCell == nil) {
+            tCell = UITableViewCell (style: UITableViewCellStyle.Default, reuseIdentifier: "topicCell");
+        }
+        let cell = tCell!;
         var index = indexPath.row;
         
-        var topic = self.topics[index] as! NSDictionary;
+        // Configure the cell...
+        var topic : Topic
+        // Check to see whether the normal table or search results table is being displayed and set the Candy object from the appropriate array
+        if tableView == self.searchDisplayController!.searchResultsTableView {
+            topic = filteredTopics[index];
+        } else {
+            topic = topics[index];
+        }
         
-        var title:String? = String(stringInterpolationSegment: topic["title"]!);
+        // Configure the cell
+        var title:String? = String(stringInterpolationSegment: topic.title);
         if let t = title {
             cell.textLabel?.text = t;
         }
-        
 
         return cell
     }

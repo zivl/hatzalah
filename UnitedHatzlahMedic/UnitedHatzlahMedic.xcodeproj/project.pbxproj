@@ -14,6 +14,7 @@
 		C91B1CA81AF4CC4D0010BC3D /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C91B1CA61AF4CC4D0010BC3D /* LaunchScreen.xib */; };
 		C91B1CB41AF4CC4E0010BC3D /* UnitedHatzlahMedicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91B1CB31AF4CC4E0010BC3D /* UnitedHatzlahMedicTests.swift */; };
 		C9633C881AFA299F00286ADB /* TopicsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9633C871AFA299F00286ADB /* TopicsTableViewController.swift */; };
+		C997A4751B1CAE22000355F7 /* Topic.swift in Sources */ = {isa = PBXBuildFile; fileRef = C997A4741B1CAE22000355F7 /* Topic.swift */; };
 		C9DBF5C81AFD0881000CA68D /* topics.json in Resources */ = {isa = PBXBuildFile; fileRef = C9DBF5C71AFD0881000CA68D /* topics.json */; };
 		C9E0C1F91AFE531E00C4AE8A /* pir.html in Resources */ = {isa = PBXBuildFile; fileRef = C9E0C1F81AFE531E00C4AE8A /* pir.html */; };
 /* End PBXBuildFile section */
@@ -40,6 +41,7 @@
 		C91B1CB21AF4CC4E0010BC3D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C91B1CB31AF4CC4E0010BC3D /* UnitedHatzlahMedicTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitedHatzlahMedicTests.swift; sourceTree = "<group>"; };
 		C9633C871AFA299F00286ADB /* TopicsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicsTableViewController.swift; sourceTree = "<group>"; };
+		C997A4741B1CAE22000355F7 /* Topic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Topic.swift; sourceTree = "<group>"; };
 		C9DBF5C71AFD0881000CA68D /* topics.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = topics.json; sourceTree = "<group>"; };
 		C9E0C1F81AFE531E00C4AE8A /* pir.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = pir.html; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -91,6 +93,7 @@
 				C91B1CA61AF4CC4D0010BC3D /* LaunchScreen.xib */,
 				C91B1C991AF4CC4D0010BC3D /* Supporting Files */,
 				C9633C871AFA299F00286ADB /* TopicsTableViewController.swift */,
+				C997A4741B1CAE22000355F7 /* Topic.swift */,
 			);
 			path = UnitedHatzlahMedic;
 			sourceTree = "<group>";
@@ -232,6 +235,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9633C881AFA299F00286ADB /* TopicsTableViewController.swift in Sources */,
+				C997A4751B1CAE22000355F7 /* Topic.swift in Sources */,
 				C91B1CA01AF4CC4D0010BC3D /* TopicDetailsViewController.swift in Sources */,
 				C91B1C9C1AF4CC4D0010BC3D /* AppDelegate.swift in Sources */,
 			);

@@ -12,6 +12,14 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <searchBar key="tableHeaderView" contentMode="redraw" placeholder="Search" id="hlG-Q1-zrW">
+                            <rect key="frame" x="0.0" y="64" width="320" height="44"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <textInputTraits key="textInputTraits"/>
+                            <connections>
+                                <outlet property="delegate" destination="GoN-kg-zsq" id="d4f-9H-ThI"/>
+                            </connections>
+                        </searchBar>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="topicCell" textLabel="MMy-lo-IUI" style="IBUITableViewCellStyleDefault" id="XFD-11-Xep">
                                 <autoresizingMask key="autoresizingMask"/>
@@ -38,8 +46,20 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="נושאים" id="aVP-Z6-r0t"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <connections>
+                        <outlet property="searchDisplayController" destination="UpT-vA-mT4" id="3Ly-h8-GtD"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YNx-ib-i9x" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="UpT-vA-mT4">
+                    <connections>
+                        <outlet property="delegate" destination="GoN-kg-zsq" id="Voe-MN-0u8"/>
+                        <outlet property="searchBar" destination="hlG-Q1-zrW" id="TEc-as-Vs3"/>
+                        <outlet property="searchContentsController" destination="GoN-kg-zsq" id="nTT-K3-viS"/>
+                        <outlet property="searchResultsDataSource" destination="GoN-kg-zsq" id="0TG-13-snl"/>
+                        <outlet property="searchResultsDelegate" destination="GoN-kg-zsq" id="uAp-gJ-dtb"/>
+                    </connections>
+                </searchDisplayController>
             </objects>
             <point key="canvasLocation" x="961" y="0.0"/>
         </scene>
