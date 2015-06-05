@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		390E2195F4A563296A579639 /* TopicSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 390E2EAC833E67A670AF051C /* TopicSection.swift */; };
 		C91B1C9C1AF4CC4D0010BC3D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91B1C9B1AF4CC4D0010BC3D /* AppDelegate.swift */; };
 		C91B1CA01AF4CC4D0010BC3D /* TopicDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91B1C9F1AF4CC4D0010BC3D /* TopicDetailsViewController.swift */; };
 		C91B1CA31AF4CC4D0010BC3D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C91B1CA11AF4CC4D0010BC3D /* Main.storyboard */; };
@@ -30,6 +31,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		390E2EAC833E67A670AF051C /* TopicSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicSection.swift; sourceTree = "<group>"; };
 		C91B1C961AF4CC4D0010BC3D /* UnitedHatzlahMedic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UnitedHatzlahMedic.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C91B1C9A1AF4CC4D0010BC3D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C91B1C9B1AF4CC4D0010BC3D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -94,6 +96,7 @@
 				C91B1C991AF4CC4D0010BC3D /* Supporting Files */,
 				C9633C871AFA299F00286ADB /* TopicsTableViewController.swift */,
 				C997A4741B1CAE22000355F7 /* Topic.swift */,
+				390E2EAC833E67A670AF051C /* TopicSection.swift */,
 			);
 			path = UnitedHatzlahMedic;
 			sourceTree = "<group>";
@@ -238,6 +241,7 @@
 				C997A4751B1CAE22000355F7 /* Topic.swift in Sources */,
 				C91B1CA01AF4CC4D0010BC3D /* TopicDetailsViewController.swift in Sources */,
 				C91B1C9C1AF4CC4D0010BC3D /* AppDelegate.swift in Sources */,
+				390E2195F4A563296A579639 /* TopicSection.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,11 +1,63 @@
 {
-
-	"topics": [
-		{"id": "cpr", "title":"החייאה"},
-		{"id": "breath", "title":"מצבי חירום נשימתיים"},
-		{"id": "heart", "title":"מצבי חירום לבביים"},
-		{"id": "neuro", "title":"מצבי חירום ניורולוגים"},
-		{"id": "sugar", "title":"מצבי חירום סכרתיים"},
-		{"id": "alergy", "title":"מצבי חירום אנאפילקטיים"}
-	]
+  "sections": {
+    "cpr": {
+      "title": "החייאה",
+      "topics": [
+        {
+          "id": "cpr-child",
+          "title": "החייאה ילדים"
+        },
+        {
+          "id": "cpr-adult",
+          "title": "החייאה מבוגרים"
+        }
+      ]
+    },
+    "breath": {
+      "title": "מצבי חירום נשימתיים",
+      "topics": []
+    },
+    "heart": {
+      "title": "מצבי חירום לבביים",
+      "topics": [
+        {
+          "id": "heart-attack",
+          "title": "אוטם שריר הלב"
+        },
+        {
+          "id": "chest-pain",
+          "title": "תעוקת חזה"
+        }
+      ]
+    },
+    "neurology": {
+      "title": "מצבי חירום ניורולוגים",
+      "topics": []
+    },
+    "sugar": {
+      "title": "מצבי חירום סכרתיים",
+      "topics": []
+    },
+    "allergy": {
+      "title": "מצבי חירום אנאפילקטיים",
+      "topics": []
+    },
+    "trauma": {
+      "title": "טראומה",
+      "topics": [
+        {
+          "id": "car-accidents",
+          "title": "תאונות דרכים"
+        },
+        {
+          "id": "burns",
+          "title": "כוויות"
+        },
+        {
+          "id": "chemicals",
+          "title": "חומרים מסוכנים"
+        }
+      ]
+    }
+  }
 }

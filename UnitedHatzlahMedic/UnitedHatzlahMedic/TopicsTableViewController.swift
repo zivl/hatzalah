@@ -8,22 +8,16 @@
 
 import UIKit
 
-class TopicsTableViewController: UITableViewController, UISearchBarDelegate, UISearchControllerDelegate{
+class TopicsTableViewController: UITableViewController, UISearchBarDelegate, UISearchControllerDelegate {
 
-    var topics = [Topic]();
+    var topics = [String: [Topic]]();
     var filteredTopics = [Topic]();
-    
+    var sectionsIdAndTitleMap = [String: String]();
+    var sections = [String]();
+
     override func viewDidLoad() {
         super.viewDidLoad();
-        
-        let path = NSBundle.mainBundle().pathForResource("topics", ofType: "json");
-        let jsonData = NSData(contentsOfFile: path!);
-        var jsonResult: NSDictionary = NSJSONSerialization.JSONObjectWithData(jsonData!, options: NSJSONReadingOptions.MutableContainers, error: nil) as! NSDictionary;
-        var temp : NSArray = jsonResult["topics"] as! NSArray;
-        for (var i = 0; i < temp.count; i++){
-            var t = Topic(data: temp[i] as! NSDictionary);
-            topics.append(t);
-        }
+        self.loadData();
 
         // Uncomment the following line to preserve selection between presentations
 //        self.clearsSelectionOnViewWillAppear = false
@@ -32,27 +26,60 @@ class TopicsTableViewController: UITableViewController, UISearchBarDelegate, UIS
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 
+    func loadData() {
+        let path = NSBundle.mainBundle().pathForResource("topics", ofType: "json");
+        let jsonData = NSData(contentsOfFile: path!);
+        var jsonResult: NSDictionary = NSJSONSerialization.JSONObjectWithData(jsonData!, options: NSJSONReadingOptions.MutableContainers, error: nil) as! NSDictionary;
+        var allSections: NSDictionary = jsonResult["sections"] as! NSDictionary;
+        for (sectionKey, section) in allSections {
+            let sectionTitle: String = section["title"] as! String;
+            let sectionKeyString: String = sectionKey as! String;
+            sectionsIdAndTitleMap[sectionKeyString] = sectionTitle;
+            sections.append(sectionKeyString);
+            var topicsInSection = [Topic]();
+            var tempTopics: NSArray = section["topics"] as! NSArray;
+            for topic in tempTopics {
+                var t = Topic(data: topic as! NSDictionary);
+                topicsInSection.append(t);
+            }
+
+            topics.updateValue(topicsInSection, forKey: sectionKey as! String);
+        }
+
+    }
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+
     func filterContentForSearchText(searchText: String) {
+
         // Filter the array using the filter method
-        self.filteredTopics = self.topics.filter({( topic: Topic) -> Bool in
-            let stringMatch = topic.title.rangeOfString(searchText)
-            return stringMatch != nil;
-        });
+        self.filteredTopics.removeAll(keepCapacity: false);
+        for(topicKey, topicsInKey) in topics {
+            var filtered : [Topic] = topicsInKey.filter({
+                (topic: Topic) -> Bool in
+                let stringMatch = topic.title.rangeOfString(searchText)
+                return stringMatch != nil;
+            });
+            self.filteredTopics.extend(filtered);
+        }
     }
-    
+
     func searchDisplayController(controller: UISearchController, shouldReloadTableForSearchString searchString: String!) -> Bool {
         self.filterContentForSearchText(searchString);
         return true;
     }
-    
+
     func searchDisplayController(controller: UISearchController, shouldReloadTableForSearchScope searchOption: Int) -> Bool {
         self.filterContentForSearchText(controller.searchBar.text);
         return true;
+    }
+    
+    func topicAtIndexPath(indexPath: NSIndexPath) -> Topic  {
+        var topicsInSection : [Topic] = topics[sections[indexPath.section]]!;
+        return topicsInSection[indexPath.row];
     }
 
     // MARK: - Table view data source
@@ -60,7 +87,11 @@ class TopicsTableViewController: UITableViewController, UISearchBarDelegate, UIS
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
-        return 1
+        if tableView == self.searchDisplayController!.searchResultsTableView {
+            return 1;
+        } else {
+            return sections.count;
+        }
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -69,31 +100,41 @@ class TopicsTableViewController: UITableViewController, UISearchBarDelegate, UIS
         if tableView == self.searchDisplayController!.searchResultsTableView {
             return self.filteredTopics.count;
         } else {
-            return self.topics.count;
+            var topicsInSection : [Topic] = topics[sections[section]]!;
+            return topicsInSection.count;
         }
     }
 
-    
+    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if tableView == self.searchDisplayController!.searchResultsTableView {
+            return "";
+        } else {
+            return sectionsIdAndTitleMap[sections[section]];
+        }
+    }
+
+
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var tCell = tableView.dequeueReusableCellWithIdentifier("topicCell") as? UITableViewCell
 
         if (tCell == nil) {
-            tCell = UITableViewCell (style: UITableViewCellStyle.Default, reuseIdentifier: "topicCell");
+            tCell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "topicCell");
         }
-        let cell = tCell!;
-        var index = indexPath.row;
         
+        let cell = tCell!;
+
         // Configure the cell...
-        var topic : Topic
+        var topic = Topic();
+        
         // Check to see whether the normal table or search results table is being displayed and set the Candy object from the appropriate array
         if tableView == self.searchDisplayController!.searchResultsTableView {
-            topic = filteredTopics[index];
+            topic = filteredTopics[indexPath.row];
         } else {
-            topic = topics[index];
+            topic = topicAtIndexPath(indexPath);
         }
-        
+
         // Configure the cell
-        var title:String? = String(stringInterpolationSegment: topic.title);
+        var title: String? = String(stringInterpolationSegment: topic.title);
         if let t = title {
             cell.textLabel?.text = t;
         }
