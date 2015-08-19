@@ -8,8 +8,10 @@
 
 import UIKit
 
-class TopicsTableViewController: UITableViewController, UISearchBarDelegate, UISearchControllerDelegate {
+class TopicsTableViewController: UITableViewController, UISearchBarDelegate, UISearchResultsUpdating {
 
+    var searchController : UISearchController!;
+    
     var topics = [String: [Topic]]();
     var filteredTopics = [Topic]();
     var sectionsIdAndTitleMap = [String: String]();
@@ -17,6 +19,15 @@ class TopicsTableViewController: UITableViewController, UISearchBarDelegate, UIS
 
     override func viewDidLoad() {
         super.viewDidLoad();
+        self.searchController = UISearchController(searchResultsController: nil);
+        self.searchController.searchResultsUpdater = self;
+        self.searchController.dimsBackgroundDuringPresentation = false;
+        self.searchController.searchBar.delegate = self;
+        self.tableView.tableHeaderView = self.searchController.searchBar;
+        self.definesPresentationContext = true;
+        self.searchController.searchBar.sizeToFit();
+        self.tableView.sizeToFit();
+        
         self.loadData();
 
         // Uncomment the following line to preserve selection between presentations
@@ -66,16 +77,21 @@ class TopicsTableViewController: UITableViewController, UISearchBarDelegate, UIS
             self.filteredTopics.extend(filtered);
         }
     }
+    
+    func updateSearchResultsForSearchController(searchController: UISearchController) {
+        self.filterContentForSearchText(searchController.searchBar.text);
+        
+    }
 
-    func searchDisplayController(controller: UISearchController, shouldReloadTableForSearchString searchString: String!) -> Bool {
+    /*func searchDisplayController(controller: UISearchController, shouldReloadTableForSearchString searchString: String!) -> Bool {
         self.filterContentForSearchText(searchString);
         return true;
     }
 
     func searchDisplayController(controller: UISearchController, shouldReloadTableForSearchScope searchOption: Int) -> Bool {
-        self.filterContentForSearchText(controller.searchBar.text);
+
         return true;
-    }
+    }*/
     
     func topicAtIndexPath(indexPath: NSIndexPath) -> Topic  {
         var topicsInSection : [Topic] = topics[sections[indexPath.section]]!;
@@ -87,7 +103,7 @@ class TopicsTableViewController: UITableViewController, UISearchBarDelegate, UIS
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
-        if tableView == self.searchDisplayController!.searchResultsTableView {
+        if self.searchController!.active {
             return 1;
         } else {
             return sections.count;
@@ -97,7 +113,7 @@ class TopicsTableViewController: UITableViewController, UISearchBarDelegate, UIS
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
-        if tableView == self.searchDisplayController!.searchResultsTableView {
+        if self.searchController!.active {
             return self.filteredTopics.count;
         } else {
             var topicsInSection : [Topic] = topics[sections[section]]!;
@@ -106,7 +122,7 @@ class TopicsTableViewController: UITableViewController, UISearchBarDelegate, UIS
     }
 
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if tableView == self.searchDisplayController!.searchResultsTableView {
+        if self.searchController!.active {
             return "";
         } else {
             return sectionsIdAndTitleMap[sections[section]];
@@ -127,7 +143,7 @@ class TopicsTableViewController: UITableViewController, UISearchBarDelegate, UIS
         var topic = Topic();
         
         // Check to see whether the normal table or search results table is being displayed and set the Candy object from the appropriate array
-        if tableView == self.searchDisplayController!.searchResultsTableView {
+        if tableView == self.searchController!.active {
             topic = filteredTopics[indexPath.row];
         } else {
             topic = topicAtIndexPath(indexPath);
