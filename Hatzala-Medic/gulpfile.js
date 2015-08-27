@@ -11,17 +11,13 @@ var path = {
 	html: '**/*.html',
 	output: 'dist/',
 	indexHtmlOutput: 'dist/index.html',
-	routes: './src/app/routes.json',
 	minify: 'dist/**/*.js',
 	assets: ['./src/**/*.css', './src/**/*.svg', './src/**/*.woff', './src/**/*.ttf', './src/**/*.png', './src/**/*.ico', './src/**/*.gif', './src/**/*.jpg', './src/**/*.eot'],
 	json: './src/**/*.json',
-	index: './src/index.tpl.html',
+	index: './src/index.html',
 	watch: './src/**',
 	systemConfig: './system.config.js'
 };
-
-var routes = require(path.routes);
-var routesSrc = routes.map(function(r) { return r.src; });
 
 var serverOptions = {
 	open: false,
@@ -68,19 +64,6 @@ var cacheBustConfig = {
 	]
 };
 
-var routeBundleConfig = {
-	baseURL: path.output,
-	main: 'app/app',
-	routes: routesSrc,
-	bundleThreshold: 0.6,
-	config: path.systemConfig,
-	sourceMaps: true,
-	minify: false,
-	dest: 'dist/app',
-	destJs: 'dist/app/app.js'
-};
-
-
 var babelCompilerOptions = {
 	modules: 'system'
 };
@@ -98,11 +81,10 @@ taskMaker.defineTask('watch', {taskName: 'watch', src: path.watch, tasks: ['comp
 taskMaker.defineTask('minify', {taskName: 'minify', src: path.minify, dest: path.output});
 taskMaker.defineTask('jshint', {taskName: 'lint', src: path.source});
 taskMaker.defineTask('browserSync', {taskName: 'serve', config: serverOptions, historyApiFallback: true});
-taskMaker.defineTask('routeBundler', {taskName: 'routeBundler', config: routeBundleConfig});
 
 
 gulp.task('compile', function(callback) {
-	return runSequence(['html', 'babel', 'json', 'assets'], callback);
+	return runSequence(['babel', 'json', 'assets'], callback);
 });
 
 
@@ -113,7 +95,7 @@ gulp.task('recompile', function(callback) {
 
 gulp.task('run', function(callback) {
 	if (situation.isProduction()) {
-		return runSequence('recompile', 'routeBundler', 'cache-bust-index.html', 'htmlMinify-index.html', 'minify', 'serve', callback);
+		return runSequence('recompile', 'cache-bust-index.html', 'htmlMinify-index.html', 'minify', 'serve', callback);
 	} else if (situation.isDevelopment()) {
 		return runSequence('recompile', 'lint', 'index.html', 'serve', 'watch', callback);
 	}
