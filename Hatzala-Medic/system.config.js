@@ -17,20 +17,21 @@ System.config({
 
 System.config({
   "map": {
-    "babel": "npm:babel-core@5.8.22",
+      "babel": "npm:babel-core@5.8.23",
     "babel-runtime": "npm:babel-runtime@5.8.20",
     "core-js": "npm:core-js@0.9.18",
     "css": "github:systemjs/plugin-css@0.1.10",
     "json": "github:systemjs/plugin-json@0.1.0",
-    "material-ui": "npm:material-ui@0.11.0",
-    "react": "npm:react@0.14.0-beta3",
-    "react-dom": "npm:react-dom@0.14.0-beta3",
+      "material-ui": "npm:material-ui@0.12.0",
+      "react": "npm:react@0.14.0-rc1",
+      "react-dom": "npm:react-dom@0.14.0-rc1",
     "react-router": "npm:react-router@1.0.0-beta3",
+      "react-tap-event-plugin": "npm:react-tap-event-plugin@0.1.8",
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.3.0"
     },
     "github:jspm/nodelibs-buffer@0.1.0": {
-      "buffer": "npm:buffer@3.4.3"
+        "buffer": "npm:buffer@3.5.0"
     },
     "github:jspm/nodelibs-domain@0.1.0": {
       "domain-browser": "npm:domain-browser@1.1.4"
@@ -88,7 +89,7 @@ System.config({
     "npm:babel-runtime@5.8.20": {
       "process": "github:jspm/nodelibs-process@0.1.1"
     },
-    "npm:buffer@3.4.3": {
+      "npm:buffer@3.5.0": {
       "base64-js": "npm:base64-js@0.0.8",
       "ieee754": "npm:ieee754@1.1.6",
       "is-array": "npm:is-array@1.0.1"
@@ -117,7 +118,7 @@ System.config({
       "process": "github:jspm/nodelibs-process@0.1.1",
       "systemjs-json": "github:systemjs/plugin-json@0.1.0"
     },
-    "npm:core-js@1.1.1": {
+      "npm:core-js@1.2.0": {
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "process": "github:jspm/nodelibs-process@0.1.1",
       "systemjs-json": "github:systemjs/plugin-json@0.1.0"
@@ -137,10 +138,8 @@ System.config({
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "process": "github:jspm/nodelibs-process@0.1.1"
     },
-    "npm:fbjs@0.1.0-alpha.4": {
-      "core-js": "npm:core-js@1.1.1",
-      "fs": "github:jspm/nodelibs-fs@0.1.2",
-      "path": "github:jspm/nodelibs-path@0.1.0",
+      "npm:fbjs@0.2.1": {
+          "core-js": "npm:core-js@1.2.0",
       "process": "github:jspm/nodelibs-process@0.1.1",
       "promise": "npm:promise@7.0.4",
       "whatwg-fetch": "npm:whatwg-fetch@0.9.0"
@@ -163,12 +162,12 @@ System.config({
       "process": "github:jspm/nodelibs-process@0.1.1",
       "source-map": "npm:source-map@0.1.31"
     },
-    "npm:material-ui@0.11.0": {
+      "npm:material-ui@0.12.0": {
       "path": "github:jspm/nodelibs-path@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.1",
-      "react": "npm:react@0.12.2",
+          "react": "npm:react@0.14.0-rc1",
       "react-draggable2": "npm:react-draggable2@0.5.1",
-      "react-tap-event-plugin": "npm:react-tap-event-plugin@0.1.7"
+          "react-tap-event-plugin": "npm:react-tap-event-plugin@0.1.8"
     },
     "npm:os-browserify@0.1.2": {
       "os": "github:jspm/nodelibs-os@0.1.0"
@@ -183,9 +182,8 @@ System.config({
     "npm:punycode@1.3.2": {
       "process": "github:jspm/nodelibs-process@0.1.1"
     },
-    "npm:react-dom@0.14.0-beta3": {
-      "fbjs": "npm:fbjs@0.1.0-alpha.4",
-      "react": "npm:react@0.14.0-beta3"
+      "npm:react-dom@0.14.0-rc1": {
+          "react": "npm:react@0.14.0-rc1"
     },
     "npm:react-router@1.0.0-beta3": {
       "invariant": "npm:invariant@2.1.0",
@@ -193,19 +191,14 @@ System.config({
       "qs": "npm:qs@2.4.1",
       "warning": "npm:warning@1.0.2"
     },
-    "npm:react-tap-event-plugin@0.1.7": {
-      "process": "github:jspm/nodelibs-process@0.1.1",
-      "react": "npm:react@0.12.2"
+      "npm:react-tap-event-plugin@0.1.8": {
+          "fbjs": "npm:fbjs@0.2.1",
+          "react": "npm:react@0.14.0-rc1",
+          "react-dom": "npm:react-dom@0.14.0-rc1"
     },
-    "npm:react@0.12.2": {
-      "buffer": "github:jspm/nodelibs-buffer@0.1.0",
+      "npm:react@0.14.0-rc1": {
       "envify": "npm:envify@3.4.0",
-      "process": "github:jspm/nodelibs-process@0.1.1"
-    },
-    "npm:react@0.14.0-beta3": {
-      "buffer": "github:jspm/nodelibs-buffer@0.1.0",
-      "envify": "npm:envify@3.4.0",
-      "fbjs": "npm:fbjs@0.1.0-alpha.4",
+          "fbjs": "npm:fbjs@0.2.1",
       "process": "github:jspm/nodelibs-process@0.1.1"
     },
     "npm:readable-stream@1.1.13": {
