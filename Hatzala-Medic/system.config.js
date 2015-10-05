@@ -21,7 +21,10 @@ System.config({
     "babel-runtime": "npm:babel-runtime@5.8.20",
     "core-js": "npm:core-js@0.9.18",
     "css": "github:systemjs/plugin-css@0.1.10",
+      "events": "npm:events@1.1.0",
+      "flux": "npm:flux@2.1.1",
     "json": "github:systemjs/plugin-json@0.1.0",
+      "keymirror": "npm:keymirror@0.1.1",
       "material-ui": "npm:material-ui@0.12.0",
       "react": "npm:react@0.14.0-rc1",
       "react-dom": "npm:react-dom@0.14.0-rc1",
@@ -118,7 +121,7 @@ System.config({
       "process": "github:jspm/nodelibs-process@0.1.1",
       "systemjs-json": "github:systemjs/plugin-json@0.1.0"
     },
-      "npm:core-js@1.2.0": {
+      "npm:core-js@1.2.1": {
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "process": "github:jspm/nodelibs-process@0.1.1",
       "systemjs-json": "github:systemjs/plugin-json@0.1.0"
@@ -138,12 +141,30 @@ System.config({
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "process": "github:jspm/nodelibs-process@0.1.1"
     },
-      "npm:fbjs@0.2.1": {
-          "core-js": "npm:core-js@1.2.0",
+      "npm:fbemitter@2.0.0": {
+          "fbjs": "npm:fbjs@0.1.0-alpha.7",
+          "process": "github:jspm/nodelibs-process@0.1.1"
+      },
+      "npm:fbjs@0.1.0-alpha.7": {
+          "core-js": "npm:core-js@1.2.1",
+          "fs": "github:jspm/nodelibs-fs@0.1.2",
+          "path": "github:jspm/nodelibs-path@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.1",
       "promise": "npm:promise@7.0.4",
       "whatwg-fetch": "npm:whatwg-fetch@0.9.0"
     },
+      "npm:fbjs@0.2.1": {
+          "core-js": "npm:core-js@1.2.1",
+          "process": "github:jspm/nodelibs-process@0.1.1",
+          "promise": "npm:promise@7.0.4",
+          "whatwg-fetch": "npm:whatwg-fetch@0.9.0"
+      },
+      "npm:flux@2.1.1": {
+          "fbemitter": "npm:fbemitter@2.0.0",
+          "fbjs": "npm:fbjs@0.1.0-alpha.7",
+          "immutable": "npm:immutable@3.7.5",
+          "process": "github:jspm/nodelibs-process@0.1.1"
+      },
     "npm:https-browserify@0.0.0": {
       "http": "github:jspm/nodelibs-http@1.7.1"
     },

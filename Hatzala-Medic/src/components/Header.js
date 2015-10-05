@@ -3,13 +3,50 @@
  *
  */
 import React from 'react';
-import mui from 'material-ui';
+import AppBar from 'material-ui/lib/app-bar';
+import LeftNav from 'material-ui/lib/left-nav';
+import HeaderStore from '../stores/HeaderStore';
+import HeaderActions from '../actions/HeaderActions';
+import HeaderTitle from './HeaderTitle';
 
 class Header extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {menuItems: HeaderStore.getMenuItems(), title: HeaderStore.getTitle()};
+
+    }
+
+    componentDidMount() {
+        //HeaderStore.on('anyEvent', this.onAnyChange);
+    }
+
+    componentWillUnmount() {
+        //HeaderStore.removeAllListeners();
+    }
+
     render() {
-        var RaisedButton = mui.RaisedButton;
-        return <RaisedButton label="Primary" primary={true}/>;
+
+        return (
+            <div className='header'>
+                <AppBar title={<HeaderTitle title={this.state.title} />}
+                        onLeftIconButtonTouchTap={this.onLeftHeaderIconClick.bind(this)}/>
+                <LeftNav ref="leftNav" docked={false} menuItems={this.state.menuItems}
+                         onChange={this.onSideBarLinkClick.bind(this)}/>
+            </div>
+        );
+    }
+
+    onLeftHeaderIconClick(event) {
+        this.refs.leftNav.toggle();
+    }
+
+    onSideBarLinkClick(e, index, item) {
+        HeaderActions.sideBarRouteClick(item.route);
+    }
+
+    onAnyChange(data) {
+
     }
 }
 
