@@ -67,7 +67,8 @@ var cacheBustConfig = {
 };
 
 var babelCompilerOptions = {
-	modules: 'system'
+    modules: 'system',
+    stage: 0
 };
 
 

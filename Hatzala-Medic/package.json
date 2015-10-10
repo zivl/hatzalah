@@ -23,6 +23,7 @@
       "flux": "npm:flux@^2.1.1",
       "json": "github:systemjs/plugin-json@^0.1.0",
       "keymirror": "npm:keymirror@^0.1.1",
+      "lodash": "npm:lodash@^3.10.1",
       "material-ui": "npm:material-ui@0.12.0",
       "react": "npm:react@0.14.0-rc1",
       "react-dom": "npm:react-dom@^0.14.0-beta3",

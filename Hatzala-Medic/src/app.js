@@ -1,7 +1,7 @@
 import React from 'react';
 import { Router, Route } from 'react-router';
 import { history } from 'react-router/lib/BrowserHistory';
-import MedicApp from './MedicApp';
+import MedicApp from './components/MedicApp';
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
 

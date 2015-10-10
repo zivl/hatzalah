@@ -3,9 +3,10 @@
  *
  */
 import React from 'react';
-import Header from './components/Header';
-import MedicAppConstants from './constants/MedicAppConstants';
-import MedicAppStore from './stores/MedicAppStore';
+import Header from '../components/Header';
+import MedicAppConstants from '../constants/MedicAppConstants';
+import MedicAppStore from '../stores/MedicAppStore';
+import Topics from './Topics';
 
 class MedicApp extends React.Component {
 
@@ -21,6 +22,7 @@ class MedicApp extends React.Component {
         return (
             <div>
                 <Header />
+                <Topics />
             </div>
         );
     }
@@ -34,7 +36,7 @@ class MedicApp extends React.Component {
 MedicApp.defaultProps = {};
 MedicApp.propTypes = {};
 MedicApp.contextTypes = {
-    router: React.PropTypes.func
+    router: React.PropTypes.object
 };
 
 export default MedicApp;
