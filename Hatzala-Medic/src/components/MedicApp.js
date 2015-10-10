@@ -22,7 +22,7 @@ class MedicApp extends React.Component {
         return (
             <div>
                 <Header />
-                <Topics />
+                {this.props.children}
             </div>
         );
     }

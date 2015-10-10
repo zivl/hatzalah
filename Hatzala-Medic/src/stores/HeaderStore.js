@@ -4,20 +4,16 @@ import HeaderConstants from '../constants/HeaderConstants';
 
 var menuItems = [
     {route: '/', text: 'ראשי'},
+    {route: 'statistics', text: 'סטטיסטיקה', disabled: true},
+    {route: 'forum', text: 'פורום', disabled: true},
     {route: 'settings', text: 'הגדרות'},
     {route: 'about', text: 'אודות'}
 ];
-
-var headerTitle = 'איחוד הצלה';
 
 class HeaderStore extends EventEmitter {
 
     getMenuItems() {
         return menuItems;
-    }
-
-    getTitle() {
-        return headerTitle;
     }
 
 }

@@ -1,7 +1,8 @@
 import React from 'react';
-import { Router, Route } from 'react-router';
+import { Router, Route, Redirect } from 'react-router';
 import { history } from 'react-router/lib/BrowserHistory';
 import MedicApp from './components/MedicApp';
+import Topics from './components/Topics';
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
@@ -16,7 +17,10 @@ class App extends React.Component {
 
 		return (
 			<Router history={history}>
-                <Route path="/" component={MedicApp}></Route>
+				<Route path="/medic" component={MedicApp}>
+					<Route path="/topics" component={Topics}></Route>
+				</Route>
+				<Redirect from='/' to='/medic/topics'/>
 			</Router>
 		);
 	}

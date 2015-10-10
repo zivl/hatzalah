@@ -8,12 +8,13 @@ import LeftNav from 'material-ui/lib/left-nav';
 import HeaderStore from '../stores/HeaderStore';
 import HeaderActions from '../actions/HeaderActions';
 import HeaderTitle from './HeaderTitle';
+//import SearchIcon from 'material-ui/lib/svg-icons/action/search';
 
 class Header extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {menuItems: HeaderStore.getMenuItems(), title: HeaderStore.getTitle()};
+        this.state = {menuItems: HeaderStore.getMenuItems()};
 
     }
 
@@ -29,7 +30,7 @@ class Header extends React.Component {
 
         return (
             <div className='header'>
-                <AppBar title={<HeaderTitle title={this.state.title} />}
+                <AppBar title={ <div className='header-title'></div> }
                         onLeftIconButtonTouchTap={this.onLeftHeaderIconClick.bind(this)}/>
                 <LeftNav ref="leftNav" docked={false} menuItems={this.state.menuItems}
                          onChange={this.onSideBarLinkClick.bind(this)}/>
