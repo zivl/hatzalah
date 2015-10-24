@@ -17,8 +17,8 @@ System.config({
 
 System.config({
   "map": {
-    "babel": "npm:babel-core@5.8.23",
-    "babel-runtime": "npm:babel-runtime@5.8.20",
+    "babel": "npm:babel-core@5.8.25",
+    "babel-runtime": "npm:babel-runtime@5.8.25",
     "core-js": "npm:core-js@0.9.18",
     "css": "github:systemjs/plugin-css@0.1.10",
     "events": "npm:events@1.1.0",
@@ -91,6 +91,9 @@ System.config({
       "util": "npm:util@0.10.3"
     },
     "npm:babel-runtime@5.8.20": {
+      "process": "github:jspm/nodelibs-process@0.1.2"
+    },
+    "npm:babel-runtime@5.8.25": {
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:buffer@3.5.0": {

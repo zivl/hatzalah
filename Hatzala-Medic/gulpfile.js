@@ -4,6 +4,7 @@ var taskMaker = gulpHelpers.taskMaker(gulp);
 var situation = gulpHelpers.situation();
 var _ = gulpHelpers.framework('_');
 var runSequence = gulpHelpers.framework('run-sequence');
+var gulpMarkdown = require('./tools/gulp/tasks/markdown');
 
 var path = {
 	source: 'src/**/*.js',
@@ -12,7 +13,7 @@ var path = {
 	output: 'dist/',
 	indexHtmlOutput: 'dist/index.html',
 	minify: 'dist/**/*.js',
-    assets: ['./resources/**/*.css', './resources/**/*.svg', './resources/**/*.woff', './resources/**/*.ttf', './resources/**/*.png', './resources/**/*.ico', './resources/**/*.gif', './resources/**/*.jpg', './resources/**/*.eot'],
+	assets: './resources/**/*.{css,png,jpg,gif,ico,svg,eot,ttf,woff,woff2,otf}',
 	index: './src/index.html',
 	watch: './src/**',
     sass: './resources/scss/**',
@@ -68,7 +69,8 @@ var cacheBustConfig = {
 
 var babelCompilerOptions = {
     modules: 'system',
-    stage: 0
+	stage: 2, // babel default, in case we would like to go wild
+	optional: ['es7.classProperties']
 };
 
 
@@ -82,7 +84,7 @@ taskMaker.defineTask('htmlMinify', {taskName: 'htmlMinify-index.html', taskDeps:
 taskMaker.defineTask('watch', {taskName: 'watch', src: path.watch, tasks: ['compile', 'index.html', 'lint']});
 taskMaker.defineTask('watch', {taskName: 'sass-watch', src: path.sass, tasks: ['sass']});
 taskMaker.defineTask('minify', {taskName: 'minify', src: path.minify, dest: path.output});
-taskMaker.defineTask('jshint', {taskName: 'lint', src: path.source});
+taskMaker.defineTask('eslint', {taskName: 'lint', src: path.source});
 taskMaker.defineTask('browserSync', {taskName: 'serve', config: serverOptions, historyApiFallback: true});
 taskMaker.defineTask('sass', {taskName: 'sass', src: path.sass, dest: path.css});
 
@@ -105,5 +107,9 @@ gulp.task('run', function(callback) {
 	}
 });
 
+gulp.task('md' , function(callback){
+	gulpMarkdown({src:'./resources/md/*.md', dest:'./resources/md/'});
+});
 
-gulp.task('default', ['run']);
+
+gulp.task('default', ['md']);
