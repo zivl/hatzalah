@@ -6,6 +6,7 @@ var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
 var webpackConfig = require('./webpack.config');
 var webpackProductionConfig = require('./webpack.production.config');
+var gulpMarkdown = require('./tools/gulp/tasks/markdown');
 
 var path = {
 	dist: 'dist',
@@ -91,4 +92,8 @@ gulp.task('webpack-dev-server', function (callback) {
 			if (err) throw new gutil.PluginError('webpack-dev-server', err);
 			gutil.log('[webpack-dev-server]', 'http://localhost:8080/webpack-dev-server/index.html');
 		});
+});
+
+gulp.task('md' , function(callback){
+	gulpMarkdown({src:'./resources/md/*.md', dest:'./resources/md/'});
 });
