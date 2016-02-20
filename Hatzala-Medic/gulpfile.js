@@ -1,109 +1,94 @@
 var gulp = require('gulp');
+var gutil = require('gulp-util');
 var gulpHelpers = require('gulp-helpers');
 var taskMaker = gulpHelpers.taskMaker(gulp);
-var situation = gulpHelpers.situation();
-var _ = gulpHelpers.framework('_');
-var runSequence = gulpHelpers.framework('run-sequence');
+var webpack = require('webpack');
+var WebpackDevServer = require('webpack-dev-server');
+var webpackConfig = require('./webpack.config');
+var webpackProductionConfig = require('./webpack.production.config');
 
 var path = {
-	source: 'src/**/*.js',
-	react: 'src/**/*.jsx',
-	html: '**/*.html',
-	output: 'dist/',
-	indexHtmlOutput: 'dist/index.html',
-	minify: 'dist/**/*.js',
-    assets: ['./resources/**/*.css', './resources/**/*.svg', './resources/**/*.woff', './resources/**/*.ttf', './resources/**/*.png', './resources/**/*.ico', './resources/**/*.gif', './resources/**/*.jpg', './resources/**/*.eot'],
-	index: './src/index.html',
-	watch: './src/**',
-    sass: './resources/scss/**',
-    css: 'dist/css/',
-	systemConfig: './system.config.js'
+	dist: 'dist',
+	war: 'dist/**/*'
 };
 
-var serverOptions = {
-	open: false,
-	ui: false,
-	notify: false,
-	ghostMode: false,
-    files: ['src/components/*.js'],
-	port: process.env.PORT || 9000,
-	server: {
-		baseDir: [path.output],
-		routes: {
-			'/system.config.js': './system.config.js',
-			'/jspm_packages': './jspm_packages'
-		}
-	}
-};
+taskMaker.defineTask('clean', {taskName: 'clean', src: path.dist});
+taskMaker.defineTask('compress', {taskName: 'compress', src: path.war, filename: 'hatzalla.war', dest: path.dist});
 
-if (situation.isProduction()) {
-	serverOptions = _.merge(serverOptions, {
-		codeSync: false,
-		reloadOnRestart: false,
-		server: {
-			snippetOptions: {
-				rule: {
-					match: /qqqqqqqqqqq/
-				}
+
+// The development server (the recommended option for development)
+gulp.task('default', ['webpack-dev-server']);
+
+// Build and watch cycle (another option for development)
+// Advantage: No server required, can run app from filesystem
+// Disadvantage: Requests are not blocked until bundle is available,
+//               can serve an old app on refresh
+gulp.task('build-dev', ['webpack:build-dev'], function () {
+	gulp.watch(['src/**/*'], ['webpack:build-dev']);
+});
+
+// Production build
+gulp.task('build', ['webpack:build']);
+
+gulp.task('webpack:build', function (callback) {
+	// modify some webpack config options
+	var myConfig = Object.create(webpackProductionConfig);
+	myConfig.plugins = myConfig.plugins.concat(
+		new webpack.DefinePlugin({
+			'process.env': {
+				// This has effect on the react lib size
+				'NODE_ENV': JSON.stringify('production')
 			}
-		}
+		}),
+		new webpack.optimize.DedupePlugin()
+		//new webpack.optimize.UglifyJsPlugin()
+	);
+
+	// run webpack
+	webpack(myConfig, function (err, stats) {
+		if (err) throw new gutil.PluginError('webpack:build', err);
+		gutil.log('[webpack:build]', stats.toString({
+			colors: true
+		}));
+		callback();
 	});
-}
+});
 
-var cacheBustConfig = {
-	usePrefix: false,
-	patterns: [
-		{
-			match: '<!-- PROD',
-			replacement: ''
-		}, {
-			match: 'END -->',
-			replacement: ''
-		}, {
-			match: '{{hash}}',
-			replacement: Math.round(new Date() / 1000)
+// modify some webpack config options
+var myDevConfig = Object.create(webpackConfig);
+myDevConfig.devtool = 'sourcemap';
+myDevConfig.debug = true;
+
+// create a single instance of the compiler to allow caching
+var devCompiler = webpack(myDevConfig);
+
+gulp.task('webpack:build-dev', function (callback) {
+	// run webpack
+	devCompiler.run(function (err, stats) {
+		if (err) throw new gutil.PluginError('webpack:build-dev', err);
+		gutil.log('[webpack:build-dev]', stats.toString({
+			colors: true
+		}));
+		callback();
+	});
+});
+
+gulp.task('webpack-dev-server', function (callback) {
+	// modify some webpack config options
+	var myConfig = Object.create(webpackConfig);
+	myConfig.devtool = 'eval';
+	myConfig.debug = true;
+	myConfig.hot = true;
+	myConfig.inline = true;
+
+	// Start a webpack-dev-server
+	new WebpackDevServer(webpack(myConfig), {
+		publicPath: myConfig.output.publicPath,
+		stats: {
+			colors: true
 		}
-	]
-};
-
-var babelCompilerOptions = {
-    modules: 'system',
-    stage: 0
-};
-
-
-taskMaker.defineTask('clean', {taskName: 'clean', src: path.output});
-taskMaker.defineTask('babel', {taskName: 'babel', src: [path.source, path.react], dest: path.output, ngAnnotate: true, compilerOptions: babelCompilerOptions});
-taskMaker.defineTask('copy', {taskName: 'systemConfig', src: path.systemConfig, dest: path.output});
-taskMaker.defineTask('copy', {taskName: 'assets', src: path.assets, dest: path.output});
-taskMaker.defineTask('copy', {taskName: 'index.html', src: path.index, dest: path.output, rename: 'index.html'});
-taskMaker.defineTask('copy', {taskName: 'cache-bust-index.html', src: path.index, dest: path.output, rename: 'index.html', replace: cacheBustConfig});
-taskMaker.defineTask('htmlMinify', {taskName: 'htmlMinify-index.html', taskDeps: ['cache-bust-index.html'], src: path.indexHtmlOutput, dest: path.output});
-taskMaker.defineTask('watch', {taskName: 'watch', src: path.watch, tasks: ['compile', 'index.html', 'lint']});
-taskMaker.defineTask('watch', {taskName: 'sass-watch', src: path.sass, tasks: ['sass']});
-taskMaker.defineTask('minify', {taskName: 'minify', src: path.minify, dest: path.output});
-taskMaker.defineTask('jshint', {taskName: 'lint', src: path.source});
-taskMaker.defineTask('browserSync', {taskName: 'serve', config: serverOptions, historyApiFallback: true});
-taskMaker.defineTask('sass', {taskName: 'sass', src: path.sass, dest: path.css});
-
-
-gulp.task('compile', function(callback) {
-    return runSequence('sass', ['babel', 'assets'], callback);
+	}).listen(8080, 'localhost', function (err) {
+			if (err) throw new gutil.PluginError('webpack-dev-server', err);
+			gutil.log('[webpack-dev-server]', 'http://localhost:8080/webpack-dev-server/index.html');
+		});
 });
-
-
-gulp.task('recompile', function(callback) {
-	return runSequence('clean', ['compile'], callback);
-});
-
-
-gulp.task('run', function(callback) {
-	if (situation.isProduction()) {
-		return runSequence('recompile', 'cache-bust-index.html', 'htmlMinify-index.html', 'minify', 'serve', callback);
-	} else if (situation.isDevelopment()) {
-        return runSequence('recompile', 'lint', 'index.html', 'serve', 'watch', 'sass-watch', callback);
-	}
-});
-
-
-gulp.task('default', ['run']);

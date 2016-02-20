@@ -40,17 +40,17 @@ class TopicsTableViewController: UITableViewController, UISearchBarDelegate, UIS
     func loadData() {
         let path = NSBundle.mainBundle().pathForResource("topics", ofType: "json");
         let jsonData = NSData(contentsOfFile: path!);
-        var jsonResult: NSDictionary = NSJSONSerialization.JSONObjectWithData(jsonData!, options: NSJSONReadingOptions.MutableContainers, error: nil) as! NSDictionary;
-        var allSections: NSDictionary = jsonResult["sections"] as! NSDictionary;
+        let jsonResult: NSDictionary = (try! NSJSONSerialization.JSONObjectWithData(jsonData!, options: NSJSONReadingOptions.MutableContainers)) as! NSDictionary;
+        let allSections: NSDictionary = jsonResult["sections"] as! NSDictionary;
         for (sectionKey, section) in allSections {
             let sectionTitle: String = section["title"] as! String;
             let sectionKeyString: String = sectionKey as! String;
             sectionsIdAndTitleMap[sectionKeyString] = sectionTitle;
             sections.append(sectionKeyString);
             var topicsInSection = [Topic]();
-            var tempTopics: NSArray = section["topics"] as! NSArray;
+            let tempTopics: NSArray = section["topics"] as! NSArray;
             for topic in tempTopics {
-                var t = Topic(data: topic as! NSDictionary);
+                let t = Topic(data: topic as! NSDictionary);
                 topicsInSection.append(t);
             }
 
@@ -69,12 +69,12 @@ class TopicsTableViewController: UITableViewController, UISearchBarDelegate, UIS
         // Filter the array using the filter method
         self.filteredTopics.removeAll(keepCapacity: false);
         for(topicKey, topicsInKey) in topics {
-            var filtered : [Topic] = topicsInKey.filter({
+            let filtered : [Topic] = topicsInKey.filter({
                 (topic: Topic) -> Bool in
                 let stringMatch = topic.title.rangeOfString(searchText)
                 return stringMatch != nil;
             });
-            self.filteredTopics.extend(filtered);
+            self.filteredTopics.appendContentsOf(filtered);
         }
     }
     
@@ -116,7 +116,7 @@ class TopicsTableViewController: UITableViewController, UISearchBarDelegate, UIS
         if self.searchController!.active {
             return self.filteredTopics.count;
         } else {
-            var topicsInSection : [Topic] = topics[sections[section]]!;
+            let topicsInSection : [Topic] = topics[sections[section]]!;
             return topicsInSection.count;
         }
     }

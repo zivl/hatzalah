@@ -5,7 +5,6 @@
 import React from 'react';
 import Lists from 'material-ui/lib/lists';
 import TopicsStore from '../stores/TopicsStore';
-import forEach from 'lodash/collection/each';
 
 const List = Lists.List;
 const ListItem = Lists.ListItem;
@@ -28,9 +27,7 @@ class Topics extends React.Component {
     renderListItem = (topic) => {
         var subTopics = topic.topics;
         var nestedItems = subTopics && subTopics.length > 0 ? [] : undefined;
-        forEach(subTopics, (subTopic) => {
-            nestedItems.push(this.renderListItem(subTopic));
-        }, this);
+        subTopics.forEach(subTopic => nestedItems.push(this.renderListItem(subTopic)));
 
         return (
             <ListItem key={topic.id} primaryText={topic.name} nestedItems={nestedItems}

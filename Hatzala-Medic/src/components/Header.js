@@ -7,7 +7,6 @@ import AppBar from 'material-ui/lib/app-bar';
 import LeftNav from 'material-ui/lib/left-nav';
 import HeaderStore from '../stores/HeaderStore';
 import HeaderActions from '../actions/HeaderActions';
-import HeaderTitle from './HeaderTitle';
 //import SearchIcon from 'material-ui/lib/svg-icons/action/search';
 
 class Header extends React.Component {

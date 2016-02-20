@@ -16,7 +16,7 @@ class TopicDetailsViewController: UIViewController {
         super.viewDidLoad();
 
         self.navigationController?.title = "";
-        var url = NSBundle.mainBundle().URLForResource("pir", withExtension: "html");
+        let url = NSBundle.mainBundle().URLForResource("pir", withExtension: "html");
         let request = NSURLRequest(URL: url!)
 
         webview.loadRequest(request);
