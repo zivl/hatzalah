@@ -94,6 +94,6 @@ gulp.task('webpack-dev-server', function (callback) {
 		});
 });
 
-gulp.task('md' , function(callback){
-	gulpMarkdown({src:'./resources/md/*.md', dest:'./resources/md/'});
+gulp.task('md', function (callback) {
+	gulpMarkdown({src: './resources/md/*.md', dest: './resources/md/'});
 });
